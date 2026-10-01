@@ -19,24 +19,35 @@ tela = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("Nave vs Inimigo")
 relogio = pygame.time.Clock()
 
-# 3. PALETA DE CORES (RGB)
+# 3. PALETA DE CORES
 PRETO = (15, 15, 20)
 BRANCO = (240, 245, 255)
+# Jogador
 AZUL_ESCURO = (10, 45, 90)
 CIANO = (80, 220, 255)
 AZUL_CLARO = (170, 235, 255)
 VERMELHO_CONTORNO = (196, 30, 61)
+# Inimigo
 ROXO_INIMIGO = (145, 55, 220)
 ROXO_ESCURO = (65, 20, 100)
 ROXO_CLARO = (190, 100, 255)
+ROXO_VIOLET = (148,0,211)
 VERDE_ALIEN = (90, 255, 150)
 VERDE_ESCURO = (20, 120, 70)
+# Fogo do motor
 LARANJA_FOGO = (255, 140, 20)
 AMARELO_FOGO = (255, 220, 60)
 AMARELO_TIRO = (255, 215, 0)
 ROSA_TIRO = (255, 70, 110)
 CINZA_BARRA = (40, 40, 50)
 VERMELHO_ATRASO = (120, 25, 35)
+#Telas
+PRETO_FUNDO = (16, 14, 29)
+AZUL_PAINEL = (36, 32, 74)
+ROXO_SOMBRA = (91, 33, 168)
+ROSA_SETAS = (255, 45, 149)
+CIANO_TEXTOS = (0, 240, 255)
+
 
 # 4. FONTES
 fonte_titulo = pygame.font.SysFont("Arial", 72, bold=True)
@@ -642,8 +653,8 @@ def desenhar_menu():
     desenhar_fundo()
     t = pygame.time.get_ticks()
     cx = LARGURA // 2
-    sombra = fonte_titulo.render("NAVE vs INIMIGO", True, ROXO_ESCURO)
-    titulo = fonte_titulo.render("NAVE vs INIMIGO", True, CIANO)
+    sombra = fonte_titulo.render("NAVE vs INIMIGO", True, ROXO_SOMBRA)
+    titulo = fonte_titulo.render("NAVE vs INIMIGO", True, CIANO_TEXTOS)
     tela.blit(sombra, sombra.get_rect(center=(cx + 4, 114)))
     tela.blit(titulo, titulo.get_rect(center=(cx, 110)))
 
@@ -653,33 +664,33 @@ def desenhar_menu():
     for lado in (-1, 1):
         desenhar_escalado(deco_inimigo.draw, (120, 70), 2, (cx + lado * 290, 280 - bob))
 
-    texto_centro(f"Recorde: {recorde}", fonte_pequena, AMARELO_FOGO, 395)
+    texto_centro(f"Recorde: {recorde}", fonte_pequena, ROSA_SETAS, 395)
 
     for i, item in enumerate(ITENS_MENU):
         sel = i == sel_menu
         y = 480 + i * 70
-        surf = fonte_media.render(item, True, AMARELO_FOGO if sel else BRANCO)
+        surf = fonte_media.render(item, True, ROSA_SETAS if sel else BRANCO)
         rect = surf.get_rect(center=(cx, y))
         tela.blit(surf, rect)
         if sel:
             for lado, x in ((-1, rect.left - 30), (1, rect.right + 30)):
-                pygame.draw.polygon(tela, AMARELO_FOGO,
+                pygame.draw.polygon(tela, ROSA_SETAS,
                                     [(x + lado * 10, y), (x - lado * 8, y - 11), (x - lado * 8, y + 11)])
 
-    texto_centro("Mover: setas ou WASD   |   Atirar: ESPAÇO   |   Pausar: P   |   Som: M",
-                 fonte_pequena, AZUL_CLARO, ALTURA - 60)
-    texto_centro("Cima/Baixo: escolher   Enter: selecionar   ESC: sair", fonte_pequena, AZUL_CLARO, ALTURA - 30)
+    # --- LETRINHAS DE BAIXO (RODAPÉ) EM CIANO NEON ---
+    texto_centro("Mover: setas ou WASD   |   Atirar: Espaço   |   Pausar: P   |   Som: M", fonte_pequena, CIANO_TEXTOS, ALTURA - 60)
+    texto_centro("Cima/Baixo: Escolher   Enter: Selecionar   ESC: Sair", fonte_pequena, CIANO_TEXTOS, ALTURA - 30)
 
 
 def desenhar_config():
     desenhar_fundo()
     cx = LARGURA // 2
-    texto_centro("CONFIGURAÇÕES", fonte_grande, CIANO, 110)
+    texto_centro("CONFIGURAÇÕES", fonte_grande, CIANO_TEXTOS, 110)
 
     painel = pygame.Surface((660, 420), pygame.SRCALPHA)
     painel.fill((10, 20, 45, 200))
     tela.blit(painel, (170, 190))
-    pygame.draw.rect(tela, BRANCO, (170, 190, 660, 420), 2)
+    pygame.draw.rect(tela, ROXO_SOMBRA, (170, 190, 660, 420), 2)
 
     rotulos = ["Volume", "Dificuldade", "Tiro contínuo", "Zerar recorde", "Voltar"]
     for i, rot in enumerate(rotulos):
@@ -689,7 +700,7 @@ def desenhar_config():
             destaque = pygame.Surface((620, 56), pygame.SRCALPHA)
             destaque.fill((60, 90, 160, 120))
             tela.blit(destaque, (190, y - 28))
-        cor = AMARELO_FOGO if sel else BRANCO
+        cor = ROSA_SETAS if sel else BRANCO
 
         if i < 3:
             tela.blit(fonte.render(rot, True, cor), (220, y - 18))
@@ -709,8 +720,8 @@ def desenhar_config():
             tela.blit(v, v.get_rect(center=(670, y)))
 
     if msg_timer > 0:
-        texto_centro(msg_config, fonte_pequena, VERDE_ALIEN, 640)
-    texto_centro("Cima/Baixo: escolher   Esq/Dir: alterar   ESC: voltar", fonte_pequena, AZUL_CLARO, ALTURA - 40)
+        texto_centro(msg_config, fonte_pequena, ROSA_SETAS, 640)
+    texto_centro("Cima/Baixo: Escolher   Esq/Dir: Alterar   ESC: Voltar", fonte_pequena, CIANO_TEXTOS, ALTURA - 40)
 
 
 # =============================================================================
@@ -978,6 +989,7 @@ while rodando:
             for p in particulas:
                 p.draw()
 
+
             # HUD
             tela.blit(fonte.render(f"Pontos: {pontos}", True, BRANCO), (10, 10))
             tela.blit(fonte_pequena.render(
@@ -991,7 +1003,7 @@ while rodando:
 
             if pausado:
                 texto_centro("PAUSADO", fonte_grande, BRANCO, ALTURA // 2)
-                texto_centro("P = continuar   ESC = menu", fonte_pequena, BRANCO, ALTURA // 2 + 45)
+                texto_centro("P: Continuar   ESC: Menu", fonte_pequena, BRANCO, ALTURA // 2 + 45)
         else:
             for p in particulas:
                 p.draw()
@@ -1000,7 +1012,7 @@ while rodando:
             pygame.draw.rect(tela, BRANCO, caixa, width=3)
             texto_centro("FIM DE JOGO", fonte_grande, BRANCO, ALTURA // 2 - 50)
             texto_centro(f"Pontos: {pontos}   Recorde: {recorde}", fonte, AMARELO_FOGO, ALTURA // 2 + 10)
-            texto_centro("R = jogar de novo   ESC = menu", fonte_pequena, BRANCO, ALTURA // 2 + 60)
+            texto_centro("R: Jogar de novo   ESC: Menu", fonte_pequena, BRANCO, ALTURA // 2 + 60)
 
         # Tremida de tela ao levar dano
         if shake > 0 and vida > 0:
