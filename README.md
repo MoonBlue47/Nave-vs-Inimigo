@@ -4,6 +4,13 @@ Uma versão evoluída do clássico estilo *Space Shooter* 2D em **Python** e **P
 
 ---
 
+<div align="center">
+  <img src="menu.png" width="45%">
+  <img src="config.png" width="45%">
+</div>
+
+---
+
 ## 🌟 O que há de novo?
 
 - 🔊 **Áudio Procedural Interno:** Os efeitos sonoros (tiros, explosões, power-ups, chefes) são sintetizados diretamente no código usando frequências e ondas sonoras (`array` / `math`), dispensando arquivos `.wav` ou `.mp3` externos.
